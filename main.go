@@ -25,7 +25,11 @@ func main() {
 	fmt.Println("Listening on " + CONN_HOST + ":" + CONN_PORT)
 	conn, err := l.Accept()
 	fmt.Println(err)
-	_, err = conn.Write([]byte("0xFFFF*CMDS,OM,860537062636022,200318123020,L0,0,1234,1497689816#\n"))
+	arrByte := make([]byte, 2)
+	arrByte[0] = 0xFF
+	arrByte[1] = 0xFF
+	res := addByte(arrByte, []byte("*CMDS,OM,860537062636022,200318123020,L0,0,1234,1497689816#\n"))
+	_, err = conn.Write([]byte(res))
 	fmt.Println("write error", err)
 	conn.Close()
 	conn1, err := l.Accept()
@@ -44,7 +48,12 @@ func main() {
 	if err != nil {
 		fmt.Println("some error accepting from lock", err)
 	}
-	conn2.Write([]byte("0xFFFF*CMDS,OM,860537062636022,200318123020,Re,L0#\n"))
+	arrByte1 := make([]byte, 2)
+	arrByte1[0] = 0xFF
+	arrByte1[1] = 0xFF
+	res1 := addByte(arrByte1, []byte("*CMDS,OM,860537062636022,200318123020,Re,L0#\n"))
+	fmt.Println(res1)
+	conn2.Write([]byte(res1))
 	conn2.Close()
 	// 	for {
 	// 		// Listen for an incoming connection.
@@ -56,6 +65,13 @@ func main() {
 	// 		// Handle connections in a new goroutine.
 	// 		// go handleRequest(conn)
 	// 	}
+}
+
+func addByte(b1 []byte, b2 []byte) []byte {
+	var b []byte
+	b = append(b1, b2...)
+	fmt.Println(b)
+	return b
 }
 
 // Handles incoming requests.
