@@ -32,7 +32,7 @@ func main() {
 	_, err = conn.Write([]byte(res))
 	var resultTemp []byte
 	_, err = client.Read(resultTemp)
-	fmt.Println("read error", err)
+	fmt.Println("read error", err, string(resultTemp))
 	conn.Close()
 	conn1, err := l.Accept()
 	fmt.Println("answer error", err)
@@ -57,6 +57,8 @@ func main() {
 	fmt.Println(res1)
 	conn2.Write([]byte(res1))
 	conn2.Close()
+	client.Read(resultTemp)
+	fmt.Println("client read result", resultTemp)
 	// 	for {
 	// 		// Listen for an incoming connection.
 	// 		conn, err := l.Accept()
