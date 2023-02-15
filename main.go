@@ -7,7 +7,7 @@ import (
 )
 
 const (
-	CONN_HOST = "localhost"
+	CONN_HOST = "143.42.61.34"
 	CONN_PORT = "9679"
 	CONN_TYPE = "tcp"
 )
@@ -22,9 +22,9 @@ func main() {
 	// Close the listener when the application closes.
 	defer l.Close()
 	fmt.Println("Listening on " + CONN_HOST + ":" + CONN_PORT)
-	fmt.Println(err)
 	for {
 		conn, err := l.Accept()
+		fmt.Println("accepted error", err)
 		if err != nil {
 			fmt.Println("some error", err)
 			break
@@ -54,7 +54,7 @@ func handleRequest(conn net.Conn) {
 	fmt.Println("read result", string(buf))
 	// Send a response back to person contacting us.
 	res := addByte([]byte("*CMDS,OM,860537062636022,200318123020,L0,0,1234,1497689816#\n"))
-	fmt.Println("send message",string(res))
+	fmt.Println("send message", string(res))
 	conn.Write([]byte(res))
 	// Close the connection when you're done with it.
 	conn.Close()
