@@ -24,6 +24,7 @@ func main() {
 	defer l.Close()
 	fmt.Println("Listening on " + CONN_HOST + ":" + CONN_PORT)
 	conn, err := l.Accept()
+	fmt.Println(err)
 	conn.Write([]byte("*CMDS,OM,860537062636022,000000000000,L0,0,1234,1497689816#\n"))
 	conn.Close()
 	conn, err = l.Accept()
