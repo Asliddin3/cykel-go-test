@@ -25,10 +25,12 @@ func main() {
 	fmt.Println("Listening on " + CONN_HOST + ":" + CONN_PORT)
 	conn, err := l.Accept()
 	conn.Write([]byte("*CMDS,OM,860537062636022,000000000000,L0,0,1234,1497689816#\n"))
+	conn.Close()
 	conn, err = l.Accept()
 	buf := make([]byte, 1024)
 	// Read the incoming connection into the buffer.
 	reqLen, err := conn.Read(buf)
+	conn.Close()
 	fmt.Println(reqLen)
 	if err != nil {
 		fmt.Println("Error reading:", err.Error())
@@ -39,6 +41,7 @@ func main() {
 		fmt.Println("some error accepting from lock", err)
 	}
 	conn.Write([]byte("*CMDS,OM,860537062636022,000000000000,Re,L0#\n"))
+	conn.Close()
 	// 	for {
 	// 		// Listen for an incoming connection.
 	// 		conn, err := l.Accept()
