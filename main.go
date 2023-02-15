@@ -47,7 +47,7 @@ func handleRequest(conn net.Conn) {
 	}
 	fmt.Println(string(buf))
 	// Send a response back to person contacting us.
-	conn.Write([]byte("*CMDS ,OM,860537062636022,000000000000,L0,0,1234,1497689816#<LF>"))
+	conn.Write([]byte("*CMDS ,OM,860537062636022,000000000000,L0,0,1234,1497689816#"))
 	// Close the connection when you're done with it.
 	conn.Close()
 }
