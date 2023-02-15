@@ -15,7 +15,7 @@ const (
 func main() {
 	// Listen for incoming connections.
 	l, err := net.Listen(CONN_TYPE, CONN_HOST+":"+CONN_PORT)
-
+	client, err := net.Dial(CONN_TYPE, CONN_HOST+":"+CONN_PORT)
 	if err != nil {
 		fmt.Println("Error listening:", err.Error())
 		os.Exit(1)
@@ -30,7 +30,9 @@ func main() {
 	arrByte[1] = 0xFF
 	res := addByte(arrByte, []byte("*CMDS,OM,860537062636022,200318123020,L0,0,1234,1497689816#\n"))
 	_, err = conn.Write([]byte(res))
-	fmt.Println("write error", err)
+	var resultTemp []byte
+	_, err = client.Read(resultTemp)
+	fmt.Println("read error", err)
 	conn.Close()
 	conn1, err := l.Accept()
 	fmt.Println("answer error", err)
