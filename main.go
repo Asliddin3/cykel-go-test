@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net"
 	"os"
+	"time"
 )
 
 const (
@@ -25,7 +26,7 @@ func main() {
 	fmt.Println("Listening on " + CONN_HOST + ":" + CONN_PORT)
 	conn, err := l.Accept()
 	fmt.Println(err)
-	_, err = conn.Write([]byte("*CMDS,OM,860537062636022,000000000000,L0,0,1234,1497689816#\n"))
+	_, err = conn.Write([]byte("0xFFFF*CMDS,OM,860537062636022,000000000000,L0,0,1234,1497689816#\n"))
 	fmt.Println("write error", err)
 	conn.Close()
 	conn1, err := l.Accept()
@@ -40,10 +41,11 @@ func main() {
 	}
 	fmt.Println(string(buf))
 	conn2, err := l.Accept()
+	
 	if err != nil {
 		fmt.Println("some error accepting from lock", err)
 	}
-	conn2.Write([]byte("*CMDS,OM,860537062636022,000000000000,Re,L0#\n"))
+	conn2.Write([]byte("0xFFFF*CMDS,OM,860537062636022,000000000000,Re,L0#\n"))
 	conn2.Close()
 	// 	for {
 	// 		// Listen for an incoming connection.
