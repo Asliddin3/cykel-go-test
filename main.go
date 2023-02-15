@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net"
 	"os"
+	"time"
 )
 
 const (
@@ -31,6 +32,7 @@ func main() {
 	res := addByte(arrByte, []byte("*CMDS,OM,860537062636022,200318123020,L0,0,1234,1497689816#\n"))
 	_, err = conn.Write([]byte(res))
 	var resultTemp []byte
+	time.Sleep(time.Duration(time.Second * 2))
 	_, err = client.Read(resultTemp)
 	fmt.Println("read error", err, string(resultTemp))
 	conn.Close()
