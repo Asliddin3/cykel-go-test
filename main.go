@@ -45,7 +45,7 @@ func addByte(b2 []byte) []byte {
 // Handles incoming requests.
 func handleRequest(conn net.Conn) {
 	// Make a buffer to hold incoming data.
-	buf := make([]byte, 1024)
+	var buf []byte
 	// Read the incoming connection into the buffer.
 	_, err := conn.Read(buf)
 	if err != nil {
