@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"net"
 	"os"
-	"time"
 )
 
 const (
@@ -26,14 +25,16 @@ func main() {
 	fmt.Println("Listening on " + CONN_HOST + ":" + CONN_PORT)
 	conn, err := l.Accept()
 	fmt.Println(err)
-	arrByte := make([]byte, 2)
-	arrByte[0] = 0xFF
-	arrByte[1] = 0xFF
-	res := addByte(arrByte, []byte("*CMDS,OM,860537062636022,200318123020,L0,0,1234,1497689816#\n"))
+	res := addByte([]byte("*CMDS,OM,860537062636022,200318123020,L0,0,1234,1497689816#\n"))
 	_, err = conn.Write([]byte(res))
 	var resultTemp []byte
-	time.Sleep(time.Duration(time.Second * 2))
-	_, err = client.Read(resultTemp)
+	fmt.Println("read err", err)
+	for len(resultTemp) == 0 {
+		_, err = client.Read(resultTemp)
+		if err != nil {
+			fmt.Println(err)
+		}
+	}
 	fmt.Println("read error", err, string(resultTemp))
 	conn.Close()
 	conn1, err := l.Accept()
@@ -52,14 +53,18 @@ func main() {
 	if err != nil {
 		fmt.Println("some error accepting from lock", err)
 	}
-	arrByte1 := make([]byte, 2)
-	arrByte1[0] = 0xFF
-	arrByte1[1] = 0xFF
-	res1 := addByte(arrByte1, []byte("*CMDS,OM,860537062636022,200318123020,Re,L0#\n"))
+	res1 := addByte([]byte("*CMDS,OM,860537062636022,200318123020,Re,L0#\n"))
 	fmt.Println(res1)
 	conn2.Write([]byte(res1))
 	conn2.Close()
+	resultTemp = []byte{}
 	client.Read(resultTemp)
+	for len(resultTemp) == 0 {
+		_, err = client.Read(resultTemp)
+		if err != nil {
+			fmt.Println(err)
+		}
+	}
 	fmt.Println("client read result", resultTemp)
 	// 	for {
 	// 		// Listen for an incoming connection.
@@ -73,11 +78,12 @@ func main() {
 	// 	}
 }
 
-func addByte(b1 []byte, b2 []byte) []byte {
-	var b []byte
-	b = append(b1, b2...)
-	fmt.Println(b)
-	return b
+func addByte(b2 []byte) []byte {
+	arrByte := make([]byte, 2)
+	arrByte[0] = 0xFF
+	arrByte[1] = 0xFF
+	arrByte = append(arrByte, b2...)
+	return arrByte
 }
 
 // Handles incoming requests.
