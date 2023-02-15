@@ -23,16 +23,32 @@ func main() {
 	// Close the listener when the application closes.
 	defer l.Close()
 	fmt.Println("Listening on " + CONN_HOST + ":" + CONN_PORT)
-	for {
-		// Listen for an incoming connection.
-		conn, err := l.Accept()
-		if err != nil {
-			fmt.Println("Error accepting: ", err.Error())
-			os.Exit(1)
-		}
-		// Handle connections in a new goroutine.
-		go handleRequest(conn)
+	conn, err := l.Accept()
+	conn.Write([]byte("*CMDS,OM,860537062636022,000000000000,L0,0,1234,1497689816#\n"))
+	conn, err = l.Accept()
+	buf := make([]byte, 1024)
+	// Read the incoming connection into the buffer.
+	reqLen, err := conn.Read(buf)
+	fmt.Println(reqLen)
+	if err != nil {
+		fmt.Println("Error reading:", err.Error())
 	}
+	fmt.Println(string(buf))
+	conn, err = l.Accept()
+	if err != nil {
+		fmt.Println("some error accepting from lock", err)
+	}
+	conn.Write([]byte("*CMDS,OM,860537062636022,000000000000,Re,L0#\n"))
+	// 	for {
+	// 		// Listen for an incoming connection.
+	// 		conn, err := l.Accept()
+	// 		if err != nil {
+	// 			fmt.Println("Error accepting: ", err.Error())
+	// 			os.Exit(1)
+	// 		}
+	// 		// Handle connections in a new goroutine.
+	// 		// go handleRequest(conn)
+	// 	}
 }
 
 // Handles incoming requests.
@@ -47,7 +63,7 @@ func handleRequest(conn net.Conn) {
 	}
 	fmt.Println(string(buf))
 	// Send a response back to person contacting us.
-	conn.Write([]byte("*CMDS ,OM,860537062636022,000000000000,L0,0,1234,1497689816#"))
+	conn.Write([]byte("*CMDS ,OM,860537062636022,000000000000,L0,0,1234,1497689816#\n"))
 	// Close the connection when you're done with it.
 	conn.Close()
 }
