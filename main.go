@@ -47,7 +47,8 @@ func handleRequest(conn net.Conn) {
 	// Send a response back to person contacting us.
 	res := addByte([]byte("*CMDS,OM,860537062636022,200318123020,L0,0,1234,1497689816#\r\n"))
 	fmt.Println("send message", string(res))
-	conn.Write([]byte(res))
+	_, err = conn.Write([]byte(res))
+	fmt.Println("write error", err)
 	// Close the connection when you're done with it.
 	conn.Close()
 }
