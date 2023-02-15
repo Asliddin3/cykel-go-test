@@ -29,7 +29,6 @@ func main() {
 			break
 		}
 		go handleRequest(conn)
-		conn.Close()
 	}
 }
 
@@ -47,6 +46,7 @@ func handleRequest(conn net.Conn) {
 	fmt.Println("send message", string(res))
 	_, err = conn.Write([]byte(res))
 	fmt.Println("write error", err)
+	conn.Close()
 }
 func addByte(b2 []byte) []byte {
 	arrByte := make([]byte, 2)
