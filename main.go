@@ -28,23 +28,23 @@ func main() {
 	_, err = conn.Write([]byte("*CMDS,OM,860537062636022,000000000000,L0,0,1234,1497689816#\n"))
 	fmt.Println("write error", err)
 	conn.Close()
-	conn, err = l.Accept()
+	conn1, err := l.Accept()
 	fmt.Println("answer error", err)
 	buf := make([]byte, 1024)
 	// Read the incoming connection into the buffer.
 	reqLen, err := conn.Read(buf)
-	conn.Close()
+	conn1.Close()
 	fmt.Println(reqLen)
 	if err != nil {
 		fmt.Println("Error reading:", err.Error())
 	}
 	fmt.Println(string(buf))
-	conn, err = l.Accept()
+	conn2, err := l.Accept()
 	if err != nil {
 		fmt.Println("some error accepting from lock", err)
 	}
-	conn.Write([]byte("*CMDS,OM,860537062636022,000000000000,Re,L0#\n"))
-	conn.Close()
+	conn2.Write([]byte("*CMDS,OM,860537062636022,000000000000,Re,L0#\n"))
+	conn2.Close()
 	// 	for {
 	// 		// Listen for an incoming connection.
 	// 		conn, err := l.Accept()
