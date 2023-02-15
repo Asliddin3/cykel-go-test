@@ -45,7 +45,7 @@ func handleRequest(conn net.Conn) {
 	fmt.Println("read result", string(buf), "with len", lenBuf)
 	timeStr := time.Now().Format("20060102150405")
 	timeStr = strings.TrimPrefix(timeStr, "20")
-	res := addByte([]byte(fmt.Sprintf("*CMDS,OM,860537062636022,%s,L0,0,1,1497689816#\n", timeStr)))
+	res := addByte([]byte(fmt.Sprintf("*CMDS,OM,860537062636022,200318123020,L0,0,1,%s#\n", timeStr)))
 	fmt.Println("send message", string(res))
 	_, err = conn.Write([]byte(res))
 	fmt.Println("write error", err)
