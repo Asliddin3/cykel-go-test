@@ -32,7 +32,7 @@ func main() {
 	fmt.Println("answer error", err)
 	buf := make([]byte, 1024)
 	// Read the incoming connection into the buffer.
-	reqLen, err := conn.Read(buf)
+	reqLen, err := conn1.Read(buf)
 	conn1.Close()
 	fmt.Println(reqLen)
 	if err != nil {
