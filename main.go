@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"net"
 	"os"
-	"time"
 )
 
 const (
@@ -41,7 +40,7 @@ func main() {
 	}
 	fmt.Println(string(buf))
 	conn2, err := l.Accept()
-	
+
 	if err != nil {
 		fmt.Println("some error accepting from lock", err)
 	}
